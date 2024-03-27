@@ -1,0 +1,67 @@
+version: "3.11"
+
+services:
+  nginx:
+    image: nginx:1.25.4-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - django-1
+      - django-2
+      - api
+    networks:
+      - web
+
+  django-1: &django
+    build: .
+    image: my-app:0.1
+    command: gunicorn --bind 0.0.0.0:8000 django_app.wsgi:application --log-level INFO --workers=2 --threads=4
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: <PASSWORD>
+      POSTGRES_DB: django_app
+    depends_on:
+      - database
+      - cache
+    networks:
+      - backend
+      - web
+
+  django-2:
+    <<: *django
+
+  cache:
+    image: redis:7.2.4-alpine
+    networks:
+      - backend
+
+  api:
+    build: fastapi
+    image: my-api:0.1
+    depends_on:
+      - database
+      - cache
+    networks:
+      - backend
+
+  database:
+    image: postgres:16.2-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: <PASSWORD>
+      POSTGRES_DB: django_app
+    volumes:
+      - "./pg_data:/var/lib/postgresql/data"
+    networks:
+      - backend
+
+networks:
+  web:
+    ipam:
+      config:
+        subnet: 10.0.1.0/24
+  backend:
+    ipam:
+      config:
+        subnet: 10.0.2.0/24
