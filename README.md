@@ -12,7 +12,7 @@
 python draw_diag.py compose-examples/django-app.yaml
 ```
 
-![django-app.png](img%2Fdjango-app.png)
+![django-app.png](img/django-app.png)
 
 
 ### Добавим связи
@@ -23,7 +23,7 @@ python draw_diag.py compose-examples/django-app.yaml
 python draw_diag.py compose-examples/django-app-links.yaml
 ```
 
-![django-app-links.png](img%2Fdjango-app-links.png)
+![django-app-links.png](img/django-app-links.png)
 
 
 ### Добавим подсети
@@ -31,7 +31,7 @@ python draw_diag.py compose-examples/django-app-links.yaml
 ```shell
 python draw_diag.py compose-examples/django-app-networks.yaml
 ```
-![django-app-networks.png](img%2Fdjango-app-networks.png)
+![django-app-networks.png](img/django-app-networks.png)
 
 
 ### Укажем псевдоним для образа контейнера
@@ -55,4 +55,4 @@ python draw_diag.py compose-examples/django-app-networks.yaml my-app=django
 python draw_diag.py compose-examples/django-app-multi.yaml my-app=django my-api=fastapi
 ```
 
-![django-app-multi.png](img%2Fdjango-app-multi.png)
+![django-app-multi.png](img/django-app-multi.png)
