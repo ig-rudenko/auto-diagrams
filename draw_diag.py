@@ -10,7 +10,6 @@ from yaml import safe_load
 
 os.environ["PATH"] += os.pathsep + "C:\\Program Files\\Graphviz\\bin\\"
 
-
 REPLACEMENTS = {
     "postgres": "postgresql",
     "pgadmin": "postgresql",
@@ -40,9 +39,7 @@ class AutoNode(Containers):
                     max_match_length = len(icon_name)
 
         if file_match is not None:
-            base_path, provider, category, icon_name = file_match.as_posix().rsplit(
-                "/", 3
-            )
+            base_path, provider, category, icon_name = file_match.as_posix().rsplit("/", 3)
             self._icon = icon_name
             self._icon_dir = f"resources/{provider}/{category}"
             self._provider = provider
@@ -86,9 +83,7 @@ def create_diagram(
 ) -> None:
     compose = get_docker_compose(file_path)
     networks = create_networks(compose)
-    image_path = (
-        (file_path.parent / file_path.name.rsplit(".", 1)[0]).absolute().as_posix()
-    )
+    image_path = (file_path.parent / file_path.name.rsplit(".", 1)[0]).absolute().as_posix()
 
     with Diagram(
         name="Docker Compose Diagram",
