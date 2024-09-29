@@ -64,7 +64,12 @@ def create_networks(compose: dict) -> dict[str, list[dict]]:
     networks: dict = {"default": []}  # Список сетей
     for name, config in compose["services"].items():
         if config.get("networks"):
-            network = config["networks"][0]  # Берем первую сеть
+            if isinstance(config["networks"], list):
+                network = config["networks"][0]  # Берем первую сеть
+            elif isinstance(config["networks"], dict):
+                network = list(config["networks"].keys())[0]
+            else:
+                continue
             networks.setdefault(network, [])
             networks[network].append({"name": name, **config})
         else:
